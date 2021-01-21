@@ -1,5 +1,6 @@
 package test.main;
 
+import test.mypac.GoodWeapon;
 import test.mypac.Weapon;
 import test.mypac.WeaponImpl;
 /*
@@ -17,7 +18,7 @@ public class MainClass {
 		//무언가 공격해야한다. 코딩
 		
 		//공격하기 위해 필요한 객체(의존객체)를 직접 생성(new)해서
-		Weapon w1=new WeaponImpl();
+		Weapon w1=new GoodWeapon();
 		//해당객체의 메소드를 호출함으로써 목적을 달성했다.
 		w1.attack();
 	}
