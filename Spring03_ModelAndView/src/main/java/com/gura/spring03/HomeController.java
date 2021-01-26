@@ -26,5 +26,5 @@ public class HomeController {
 		//view page로 forward 이동
 		return "home";
 	}
-	
+
 }
