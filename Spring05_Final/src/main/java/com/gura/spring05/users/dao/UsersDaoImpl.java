@@ -96,7 +96,7 @@ public class UsersDaoImpl implements UsersDao{
 		 * parameterType => UsersDto
 		 * resultType => String
 		 */
-		String id=session.selectOne("users.inaVlaid",dto);
+		String id=session.selectOne("users.isValid",dto);
 		if(id==null){//잘못된 아이디와 비밀번호
 			return false;
 		}else {//유효한 아이디와 비밀번호

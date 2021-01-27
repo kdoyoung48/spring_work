@@ -1,6 +1,10 @@
 package com.gura.spring05.users.controller;
 
+import java.net.URLEncoder;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,17 @@ public class UsersController {
 	
 	@Autowired
 	private UsersService service;
+	
+	//@Autowired //service 넘김
+	//private UsersDao dao;
+	
+	@RequestMapping(value = "/users/login", method = RequestMethod.POST)
+	public String login(HttpServletRequest request, HttpServletResponse response) {
+		//로그인이 관련된 로직을 처리한다
+		service.loginLogic(request, response);
+		//view page 로 forward 이동해서 응답
+		return "users/login";
+	}
 	
 	//로그인 폼 요청처리
 	@RequestMapping("/users/loginform")
