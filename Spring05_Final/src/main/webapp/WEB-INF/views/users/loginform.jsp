@@ -58,17 +58,17 @@
 <body class="text-center">
 <form class="form-signin" action="login.do" method="post">
 	<%-- 원래 가려던 목적지 정보를 url 이라는 파라미터 명으로 전송될수 있도록 한다. --%>
-	<input type="hidden" name="url" value="${url} }"/>
+	<input type="hidden" name="url" value="${url }"/>
 	
   	<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   	
   	<label for="id" class="sr-only">아이디</label>
   	<input type="text" id="id" name="id" class="form-control" 
-  		placeholder="아이디 입력..." value="${saveId} }" required autofocus>
+  		placeholder="아이디 입력..." value="${savedId }" required autofocus>
   		
   	<label for="pwd" class="sr-only">비밀번호</label>
   	<input type="password" id="pwd" name="pwd" class="form-control" 
-  		placeholder="비밀번호 입력..." value="${savedPwd} }" required>
+  		placeholder="비밀번호 입력..." value="${savedPwd }" required>
   		
 	<div class="checkbox mb-3">
 	    <label>

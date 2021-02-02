@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,9 @@
 </head>
 <body>
 <script>
+	alert("수정 했습니다.");
+	location.href="${pageContext.request.contextPath }/users/private/info.do";
+</script>
 	
-</script>	
 </body>
 </html>

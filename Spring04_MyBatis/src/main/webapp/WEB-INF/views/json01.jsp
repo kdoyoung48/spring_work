@@ -1,3 +1,4 @@
 <%@ page language="java" contentType="application/json; charset=UTF-8"
     pageEncoding="UTF-8"%>
-{"isExist":${isExist}}
+  
+{"num":${dto.num},"name":"${dto.name}","addr":"${dto.addr}"}
