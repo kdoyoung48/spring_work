@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +26,13 @@ public class UsersServiceImpl implements UsersService{
 	
 	@Override
 	public void addUser(UsersDto dto) {
+		//비밀번호를 암호화할 객체 생성
+		BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+		//입력한 비밀번호를 암호화 한다.
+		String encodedPwd=encoder.encode(dto.getPwd());
+		//UsersDto 에 다시 넣어준다.
+		dto.setPwd(encodedPwd);
+		
 		dao.insert(dto);
 	}
 
@@ -80,11 +89,17 @@ public class UsersServiceImpl implements UsersService{
 		//1. 폼전송되는 아이디와 비밀번호를 읽어온다.
 		String id=request.getParameter("id");
 		String pwd=request.getParameter("pwd");
-		UsersDto dto=new UsersDto();
-		dto.setId(id);
-		dto.setPwd(pwd);
-		//2. DB 에 실제로 존재하는 (유효한) 정보인지 확인한다.
-		boolean isValid=dao.isValid(dto);
+		//유효한 정보인지 여부를 담을 지역 변수를 만들고 초기값 false 지정 
+		boolean isValid=false;
+		
+		//2. 아이디를 이용해서 암호화된 비밀번호를 SELECT 한다.
+		String savedPwd=dao.getPwd(id);
+		//3. 비밀번호가 만일 null 이 아니면 (존재하는 아이디)
+		if(savedPwd != null) {
+			//4. 폼전송되는 비밀번호와 일치하는지 확인한다.
+			isValid=BCrypt.checkpw(pwd, savedPwd);
+		}
+		
 		//3. 유효한 정보이면 로그인 처리를 하고 응답 그렇지 않으면 아이디혹은 비밀번호가 틀렸다고 응답
 		if(isValid) {
 			//HttpSession 객체를 이용해서 로그인 처리를 한다. 
@@ -143,17 +158,29 @@ public class UsersServiceImpl implements UsersService{
 			HttpSession session) {
 		//로그인 된 아이디를 읽어와서 
 		String id=(String)session.getAttribute("id");
-		//UsersDto 에 담고
+
+		//아이디를 이용해서 암호화된 비밀번호를 SELECT 한다.
+		String savedPwd=dao.getPwd(id);
+		
+		//폼전송되는 비밀번호와 일치하는지 확인한다.
+		boolean isValid=BCrypt.checkpw(dto.getPwd(), savedPwd);
+		
+		//2. 만일 맞다면
+		if(isValid) {
+			//3. 새 비밀번호를 암호화해서
+			String newPwd=
+					new BCryptPasswordEncoder().encode(dto.getNewPwd());	
+		//4. dto에 아이디와 새 비밀번호를 담고
 		dto.setId(id);
-		//비밀번호를 수정하고 성공 여부를 리턴 받는다.
-		boolean isSuccess=dao.updatePwd(dto);
-		//만일 성공이면 
-		if(isSuccess) {
-			//비밀번호가 수정되었으므로 다시 로그인 하도록 로그인 아웃 처리를 한다.
-			session.removeAttribute("id");
+		dto.setNewPwd(newPwd);
+		//5.수정반영한다.;
+		dao.updatePwd(dto);
+		//로그아웃 처리를 한다.
+		session.removeAttribute(id);		
 		}
+		
 		//성공 여부를 ModelAndView 객체에 담는다.
-		mView.addObject("isSuccess", isSuccess);
+		mView.addObject("isSuccess", isValid);
 		
 	}
 
@@ -190,13 +217,12 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public void updateUser(HttpSession session, UsersDto dto) {
+	public void updateUser(UsersDto dto, HttpSession session) {
 		//로그인된 아이디를 읽어온다.
 		String id=(String)session.getAttribute("id");
-		//dto에 담는다.
+		//dto 에 담는다.
 		dto.setId(id);
-		//dao를 이용해서 DB에 수정 반영한다.
+		//dao 를 이용해서 DB 에 수정 반영한다.
 		dao.update(dto);
-		
 	}
 }

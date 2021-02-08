@@ -27,12 +27,9 @@ public interface UsersService {
 	//비밀번호를 수정하는 처리를 하고 성공 여부를 ModelAndView 객체에 담는 메소드
 	public void updateUserPwd(ModelAndView mView, UsersDto dto, 
 			HttpSession session);
-	
 	//프로필 이미지를 upload 폴더에 저장하고 저장된 파일명을 DB 에 저장하는 메소드
-	public void saveProfileImage(MultipartFile image,
-				HttpServletRequest request);
-	
-	public void updateUser(HttpSession session,UsersDto dto);
-	
-	
+	public void saveProfileImage(MultipartFile image, 
+			HttpServletRequest request);
+	//개인정보를 수정하는 메소드(여기에서는 이메일 주소만)
+	public void updateUser(UsersDto dto, HttpSession session);
 }

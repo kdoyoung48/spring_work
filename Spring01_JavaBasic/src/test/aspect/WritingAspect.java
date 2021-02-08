@@ -47,7 +47,22 @@ public class WritingAspect {
 		Object[] args=joinPoint.getArgs();
 		//인자로 전달된 String type 의 참조값 얻더내기
 		String greet=(String)args[0];
+		//만일 인사말에 "바보" 또는 "똥깨" 가 포함 되어 있다면
+		if(greet.contains("바보")||greet.contains("똥깨")) {
+			return; //메소드르 ㄹ여기서 종료(따라서 아래의 .proceed() 가 호출되지 않는다.
+		}
 		System.out.println("greet:"+"greet");
 		joinPoint.proceed();
+	}
+	@Around("execution(String getGreet())")
+	public Object getConcern(ProceedingJoinPoint joinPoint) throws Throwable {
+		//aspect 가 적용된 메소드가 리턴한 데이터의 참조값이 있다
+		Object obj=joinPoint.proceed();
+		//원래 type 으로 casting
+		String returnedData=(String)obj;
+		System.out.println("returnedData:"+returnedData);
+		//aspect 에서 조건부로 다른 data를 리턴할 여지도 있다.
+		String myData="맛있는 점심 되세요~";
+		return myData;
 	}
 }

@@ -31,7 +31,7 @@ public class UsersController {
 	@RequestMapping(value = "/users/private/update", method = RequestMethod.POST)
 	public ModelAndView update(UsersDto dto, HttpSession session,
 			ModelAndView mView) {
-		service.updateUser(session, dto);
+		service.updateUser(dto, session);
 		mView.setViewName("users/private/update");
 		return mView;
 	}
