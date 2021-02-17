@@ -23,6 +23,34 @@ public class GalleryController {
 	@Autowired
 	private GalleryService service;
 	
+	@RequestMapping("/gallery/list6")
+	public ModelAndView list6(ModelAndView mView, HttpServletRequest request) {
+		service.getList(mView, request);
+		mView.setViewName("gallery/list6");
+		return mView;
+	}
+	
+	@RequestMapping("/gallery/list5")
+	public ModelAndView list5(ModelAndView mView, HttpServletRequest request) {
+		service.getList(mView, request);
+		mView.setViewName("gallery/list5");
+		return mView;
+	}
+	
+	@RequestMapping("/gallery/list3")
+	public ModelAndView list3(ModelAndView mView, HttpServletRequest request) {
+		service.getList(mView, request);
+		mView.setViewName("gallery/list3");
+		return mView;
+	}
+	
+	@RequestMapping("/gallery/list2")
+	public ModelAndView list2(ModelAndView mView, HttpServletRequest request) {
+		service.getList(mView, request);
+		mView.setViewName("gallery/list2");
+		return mView;
+	}
+	
 	@RequestMapping("/gallery/list")
 	public ModelAndView list(ModelAndView mView, HttpServletRequest request) {
 		service.getList(mView, request);

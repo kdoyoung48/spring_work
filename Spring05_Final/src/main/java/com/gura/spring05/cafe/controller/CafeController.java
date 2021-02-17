@@ -105,6 +105,27 @@ public class CafeController {
 		return mView;
 	}
 	
+	//글 목록 요청처리 2
+		@RequestMapping("/cafe/list2")
+		public ModelAndView list2(ModelAndView mView, 
+				HttpServletRequest request) {
+			
+			service.getList(mView, request);
+			
+			mView.setViewName("cafe/list2");
+			return mView;
+	}
+	//글 목록 요청처리 2
+	@RequestMapping("/cafe/list3")
+	public ModelAndView list3(ModelAndView mView, 
+			HttpServletRequest request) {
+		
+		service.getList(mView, request);
+		
+		mView.setViewName("cafe/list3");
+		return mView;
+	}	
+	
 	//카페 새글 저장 요청 처리
 	@RequestMapping(value = "/cafe/private/insert", 
 			method = RequestMethod.POST)
